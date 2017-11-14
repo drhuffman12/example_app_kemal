@@ -8,6 +8,12 @@ targets:
   example_app_kemal:
     main: src/example_app_kemal.cr
 
+dependencies:
+  spec-kemal:
+    github: kemalcr/spec-kemal
+  kemal:
+    github: kemalcr/kemal
+
 crystal: 0.23.1
 
 license: MIT

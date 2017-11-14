@@ -12,8 +12,10 @@ require "./spec_helper"
 describe ExampleAppKemal do
   # TODO: Write tests
 
-  it "works" do
-    false.should eq(true)
+  # You can use get,post,put,patch,delete to call the corresponding route.
+  it "renders /" do
+    get "/"
+    response.body.should eq "Hello World!"
   end
 
   # it "raises an error" do
