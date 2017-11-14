@@ -9,7 +9,25 @@
         var ws = new WebSocket("ws://" + location.host + "/chat");
         // Append each message
         // ws.onmessage = function(e) { $('#chat').append(e.data + "\n") };
-        ws.onmessage = function(e) { $('#chat').prepend(e.data + "\n") };
+        ws.onmessage = function(e) {
+          console.log(e.data);
+          $('#chat').prepend(e.data + "\n");
+
+          var json_data = null;
+          try {
+            json_data = JSON.parse(e.data);
+
+            if(json_data.hasOwnProperty('bot_message')){
+              console.log(json_data);
+              $('#graph').prepend("" + json_data["bot_message"].length + "\n");
+            }
+          }
+          catch(err) {
+            // document.getElementById("demo").innerHTML = err.message;
+            console.log(err);
+          }
+
+        };
 
         $("form").bind('submit', function(e) {
           var message = $('#msg').val();
@@ -26,13 +44,22 @@
         background-color: #eeeeee;
         border: 0.1em solid blue;
       }
+      div.graph {
+        background-color: #aaffaa;
+        border: 0.1em solid black;
+      }
     </style>
     <form>
       <input id='msg' placeholder='message...' />
       <input type="submit" value="Send">
     </form>
     <div class='chat'>
+      Messages:
       <pre id='chat'></pre>
+    </div>
+    <div class='graph'>
+      Bot Messages Lengths:
+      <pre id='graph'></pre>
     </div>
   </body>
 </html>
