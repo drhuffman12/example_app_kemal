@@ -8,7 +8,8 @@
         // Open WebSocket connection
         var ws = new WebSocket("ws://" + location.host + "/chat");
         // Append each message
-        ws.onmessage = function(e) { $('#chat').append(e.data + "\n") };
+        // ws.onmessage = function(e) { $('#chat').append(e.data + "\n") };
+        ws.onmessage = function(e) { $('#chat').prepend(e.data + "\n") };
 
         $("form").bind('submit', function(e) {
           var message = $('#msg').val();
