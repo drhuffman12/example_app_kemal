@@ -1,8 +1,8 @@
 # example_app_kemal
 
 Example Kemal app
--[x] Hello World page
--[x] Simple chat w/ dumb bot
+- [x] Hello World page
+- [x] Simple chat w/ dumb bot
 
 # See
 # * http://kemalcr.com/guide/
