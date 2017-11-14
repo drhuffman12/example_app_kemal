@@ -14,6 +14,25 @@ TODO: Write usage instructions here
 
 TODO: Write development instructions here
 
+## Testing
+
+Run the specs:
+
+```sh
+crystal deps
+KEMAL_ENV=test crystal spec
+```
+
+The output should look like (when just one spec and it passes):
+
+```txt
+$ KEMAL_ENV=test crystal spec
+.
+
+Finished in 1.34 milliseconds
+1 examples, 0 failures, 0 errors, 0 pending
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[your-github-name]/example_app_kemal/fork )
