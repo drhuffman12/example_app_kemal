@@ -16,6 +16,10 @@ get "/chat" do
 end
 
 SOCKETS = [] of HTTP::WebSocket
+CHAR_SET = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
+CHAR_SET_SIZE = CHAR_SET.size
+MESSAGES = [] of String
+STATUSES = [] of String
 
 ws "/chat" do |socket|
   # Add the client to SOCKETS list
@@ -23,7 +27,10 @@ ws "/chat" do |socket|
 
   # Broadcast each message to all clients
   socket.on_message do |message|
-    SOCKETS.each { |socket| socket.send message}
+    SOCKETS.each { |socket|
+      MESSAGES << message
+      socket.send message
+    }
   end
 
   # Remove clients from the list when it's closed
@@ -31,5 +38,23 @@ ws "/chat" do |socket|
     SOCKETS.delete socket
   end
 end
+
+
+  spawn do
+    STATUSES << "running"
+    while STATUSES.last == "running" && ! MESSAGES.last(10).includes?("bot_sleep_mode")
+      begin
+        msg = { when: Time.now.to_utc, statuses: STATUSES, bot_message: (1 + rand(6)).times.to_a.map {|i| CHAR_SET[rand(CHAR_SET_SIZE)] }.join }.to_json
+        puts "bot msg: #{msg}"
+        # SOCKETS.each { |thesocket| thesocket.send("#{Time.now.to_utc}: #{msg}") }
+        SOCKETS.each { |thesocket| thesocket.send(msg) }
+        sleep(10)
+      rescue
+        puts "Socket send error!" # "#{ {dir: __DIR__, file: __FILE__, line: __LINE__, class: self.class.name, method: {{@def.name.stringify}}, message: "some message" }.pretty_inspect }"
+      end
+    end
+    STATUSES << "sleeping"
+    SOCKETS.each { |thesocket| thesocket.send({ when: Time.now.to_utc, statuses: STATUSES, message: (1 + rand(6)).times.to_a.map {|i| CHAR_SET[rand(CHAR_SET_SIZE)] }.join }.to_json) }
+  end
 
 Kemal.run

@@ -1,6 +1,14 @@
 # example_app_kemal
 
-TODO: Write a description here
+Example Kemal app
+-[x] Hello World page
+-[x] Simple chat w/ dumb bot
+
+# See
+# * http://kemalcr.com/guide/
+# * http://serdardogruyol.com/building-a-realtime-chat-app-with-crystal-and-kemal
+# * http://devan.blaze.com.au/blog/2017/10/28/racing-along-building-a-telemetry-system-using-crystal-rethinkdb
+
 
 ## Installation
 
